@@ -71,10 +71,21 @@ export function useCurrentPosition(successCallback, errorCallback, options = { m
     useEffect(() => {
         function success(geolocationPosition) {
             setState(geolocationPosition);
-            successCallback(); // ? will it work like that
+            successCallback(); // ? will it work like that or we need a seperate useEffect that calls use supplied success callback, outside, look at the commented out code
         }
+
+        function error(geolocationError) {
+            errorCallback(geolocationError);
+        }
+
         navigator.geolocation.getCurrentPosition(success, error, options);
     }, []);
+
+    /*
+    useEffect(() => {
+        successCallback();
+    }, [state]);
+    */
 
     return state;
 }
@@ -93,6 +104,7 @@ export function useWatchPosition(successCallback, errorCallback, options = { max
         }
 
         const id = navigator.geolocation.watchPosition(success, error, options);
+
         return () => navigator.geolocation.clearWatch(id);
     }, []);
 
@@ -101,5 +113,11 @@ export function useWatchPosition(successCallback, errorCallback, options = { max
         successCallback();
     }, [state]);
     */
+
     return state;
+}
+
+export function useGeolocation(currentPositionOrWatchPosition, successCallback, errorCallback, options = { maximumAge = 0, timeout = Infinity, enableHighAccuracy = false }) {
+    (currentPositionOrWatchPosition === 'current') ? useCurrentPosition(successCallback, errorCallback, options) :
+        useWatchPosition(successCallback, errorCallback, options)
 }
