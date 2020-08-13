@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export function useNetwork() {
+export function useOnlineStatus() {
     const { onLine } = navigator;
     const [spec, setSpec] = useState({ onLine, event: undefined });
 

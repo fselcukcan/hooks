@@ -1,4 +1,4 @@
-export function usePointer(selector = document) {
+export function usePointer(selector) {
     const [spec, setSpec] = useState();
 
     function eventHandler(event) {
@@ -7,10 +7,10 @@ export function usePointer(selector = document) {
 
     useEffect(() => {
         const element = selector ? document.querySelector(selector) : document;
-        element.addEventListener(eventType, eventHandler);
+        element.addEventListener('mousemove', eventHandler);
 
-        return () => element.removeEventListener('mousemove', eventHandler);
-    }, [eventType, selector]);
+        return () => element.removeEventListener('mousemove', eventHandler); // should we set spec to undefined, sine we no longer know where mouse is 
+    }, [selector]);
 
     return spec;
 }
