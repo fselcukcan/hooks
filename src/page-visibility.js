@@ -1,10 +1,10 @@
 export function usePageVisibility() {
     const { hidden, visibilityState } = document;
-    const [pageVisibilitySpec, setPageVisibilitySpec] = useState({ hidden, visibilityState, event: undefined });
+    const [spec, setSpec] = useState({ hidden, visibilityState, event: undefined });
 
     function eventHandler(event) {
         const { hidden, visibilityState } = document;
-        setPageVisibilitySpec({ hidden, visibilityState, event });
+        setSpec({ hidden, visibilityState, event });
     }
 
     useEffect(() => {
@@ -12,5 +12,5 @@ export function usePageVisibility() {
         return () => document.removeEventListener('visibilitychange', eventHandler, false);
     }, [eventHandler]);
 
-    return pageVisibilitySpec;
+    return spec;
 }
