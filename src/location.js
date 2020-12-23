@@ -6,4 +6,6 @@ export function useLocation(dependencies = [].concat(navigator.location)) {
     useEffect(() => {
         setSpec(navigator.location);
     }, dependencies);
+
+    return spec;
 }
