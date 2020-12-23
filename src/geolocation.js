@@ -24,8 +24,7 @@ export function useWatchPosition({ options, dependencies }) {
 
     useEffect(() => {
         const watchID = navigator.geolocation.getCurrentPosition(successFunc, errorFunc, options);
-        setID(watchID);
-        return () => navigator.geolocation.clearWatch(ID);
+        return () => navigator.geolocation.clearWatch(watchID);
     }, dependencies);
 
     return [state, error];
