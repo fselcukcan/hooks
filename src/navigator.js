@@ -30,7 +30,6 @@ export function useNavigator(dependencies = []) {
         setSpec(spec);
     }, dependencies);
 
-
     return spec;
 }
 
