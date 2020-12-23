@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export function useGeolocation(options, dependencies) {
+export function useGetCurrentPosition({ options, dependencies = [] }) {
     const [state, setState] = useState();
     const [error, setError] = useState();
 
@@ -9,6 +9,23 @@ export function useGeolocation(options, dependencies) {
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(successFunc, errorFunc, options);
+    }, dependencies);
+
+    return [state, error];
+}
+
+export function useWatchPosition({ options, dependencies }) {
+    const [state, setState] = useState();
+    const [error, setError] = useState();
+    const [ID, setID] = useState();
+
+    const successFunc = (position) => setState(position);
+    const errorFunc = (error) => setError(error);
+
+    useEffect(() => {
+        const watchID = navigator.geolocation.getCurrentPosition(successFunc, errorFunc, options);
+        setID(watchID);
+        return () => navigator.geolocation.clearWatch(ID);
     }, dependencies);
 
     return [state, error];
