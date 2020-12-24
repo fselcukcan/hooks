@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export function useOnlineStatus() {
     const { onLine } = navigator;
